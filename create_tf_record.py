@@ -200,7 +200,6 @@ def create_records(image_dir, file, output_record_dir, resize_height, resize_wid
     """
     # 加载文件,仅获取一个label
     images_list, labels_list = load_labels_file(file, 1, shuffle)
-
     writer = tf.python_io.TFRecordWriter(output_record_dir)
     for i, [image_name, labels] in enumerate(zip(images_list, labels_list)):
         image_path = os.path.join(image_dir, images_list[i])
@@ -287,21 +286,19 @@ if __name__ == '__main__':
     shuffle = False
     log = 10
     # 产生train.record文件
-    # image_dir = 'dataset/train'
-    image_dir = 'D:/PycharmProjects/TestImageSegmentation/img/tongue_image/train_0311'
-    # train_labels = 'dataset/train.txt'  # 图片路径
-    train_labels = 'D:/PycharmProjects/TestImageSegmentation/img/tongue_image/train_0311/train_0311.txt'
-    train_record_output = 'D:/PycharmProjects/TestImageSegmentation/img/tongue_image/train_0311/train_3_0311.tfrecords'
-    create_records(image_dir, train_labels, train_record_output, resize_height, resize_width, shuffle, log)
+    train_image_dir = 'data/images/train'
+    train_labels = 'data/images/train/train.txt'  # 图片路径
+    train_record_output = 'data/tfrecords/train.tfrecord'
+    create_records(train_image_dir, train_labels, train_record_output, resize_height, resize_width, shuffle, log)
     train_nums = get_example_nums(train_record_output)
     print("save train example nums={}".format(train_nums))
 
-    # 产生test.record文件
-    image_dir = 'D:/PycharmProjects/TestImageSegmentation/img/tongue_image/test_0311'
-    test_labels = 'D:/PycharmProjects/TestImageSegmentation/img/tongue_image/test_0311/test_0311.txt'
-    test_record_output = 'D:/PycharmProjects/TestImageSegmentation/img/tongue_image/test_0311/test_3_0311.tfrecords'
-    create_records(image_dir, test_labels, test_record_output, resize_height, resize_width, shuffle, log)
-    val_nums = get_example_nums(test_record_output)
+    # 产生validation.record文件
+    validation_image_dir = 'data/images/validation'
+    validation_labels = 'data/images/validation/validation.txt'
+    validation_record_output = 'data/tfrecords/validation.tfrecord'
+    create_records(validation_image_dir, validation_labels, validation_record_output, resize_height, resize_width, shuffle, log)
+    val_nums = get_example_nums(validation_record_output)
     print("save val example nums={}".format(val_nums))
 
     # 测试显示函数
