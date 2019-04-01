@@ -2,9 +2,12 @@ from datetime import datetime
 import tensorflow.contrib.slim.python.slim.nets.inception_v3 as inception_v3
 from create_tf_record import *
 import tensorflow.contrib.slim as slim
+import os
+
+# os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 labels_nums = 5  # 类别个数
-batch_size = 64  #
+batch_size = 32  #
 resize_height = 299  # 指定存储图片高度
 resize_width = 299  # 指定存储图片宽度
 depths = 3
@@ -161,6 +164,7 @@ def train(train_record_file,
     loss = tf.losses.get_total_loss(add_regularization_losses=True)  # 添加正则化损失loss=2.2
     tf.summary.scalar('loss', loss)
     accuracy = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(out, 1), tf.argmax(input_labels, 1)), tf.float32))
+    tf.summary.scalar('accuracy', accuracy)
 
     # Specify the optimization scheme:
     optimizer = tf.train.GradientDescentOptimizer(learning_rate=base_lr)
@@ -195,7 +199,7 @@ if __name__ == '__main__':
 
     train_log_step = 100
     base_lr = 0.01  # 学习率
-    max_steps = 30000  # 迭代次数
+    max_steps = 50000  # 迭代次数
     train_param = [base_lr, max_steps]
 
     val_log_step = 200

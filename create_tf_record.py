@@ -110,7 +110,7 @@ def get_batch_images(images, labels, batch_size, labels_nums, one_hot=False, shu
     :param shuffle:是否打乱顺序,一般train时shuffle=True,验证时shuffle=False
     :return:返回batch的images和labels
     '''
-    min_after_dequeue = 1000
+    min_after_dequeue = 800
     capacity = min_after_dequeue + 3 * batch_size  # 保证capacity必须大于min_after_dequeue参数值
     if shuffle:
         images_batch, labels_batch = tf.train.shuffle_batch([images, labels],
